@@ -3,8 +3,6 @@ import os
 import csv
 import re
 
-raise Exception("DONE")
-
 _RE_COMBINE_WHITESPACE = re.compile(r"\s+")
 file_dir = 'data'
 target_db = 'dft-mot-results-and-test-items-2005-to-2020.sqlite'
