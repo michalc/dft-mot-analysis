@@ -35,10 +35,6 @@ test_files = [
     (',', 'dft_test_result-from-2020-10-01_00-00-00-to-2021-01-01_00-00-00.csv'),
 ]
 
-test_files = [
-    (',', 'test_result_2017.csv'),
-]
-
 test_item_files = [
     ('|', 'test_item_2005.txt'),
     ('|', 'test_item_2006.txt'),
@@ -67,7 +63,10 @@ test_item_files = [
     (',', 'dft_test_item-from-2020-10-01_00-00-00-to-2021-01-01_00-00-00.csv'),
 ]
 
-os.unlink(target_db)
+try:
+    os.unlink(target_db)
+except FileNotFoundError:
+    pass
 
 with sqlite3.connect(target_db) as con:
     print('Creating database')
@@ -103,7 +102,7 @@ with sqlite3.connect(target_db) as con:
     for delimeter, file_name in test_files:
         print(file_name)
         with open(f'{file_dir}/{file_name}', 'r') as f:
-            reader = csv.reader(f, delimiter=delimeter)
+            reader = csv.reader(f, delimiter=delimeter, quoting=csv.QUOTE_NONE)
             for row in reader:
                 # There are issues with make and model - sometime model seems split into
                 # too many extra columns - suspect file was generated without escaping the
